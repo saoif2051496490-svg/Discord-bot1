@@ -14,7 +14,11 @@ bot = commands.Bot(command_prefix="!", intents=intents)
 async def play_silence_loop(voice):
     while True:
         if not voice.is_playing():
-            voice.play(discord.FFmpegPCMAudio("silence.wav"))
+            voice.play(discord.FFmpegPCMAudio(
+                "silence.wav",
+                before_options="-re",
+                options="-filter:a volume=0.001"
+            ))
         await asyncio.sleep(1)
 
 @bot.command()
