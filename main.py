@@ -12,14 +12,17 @@ bot = commands.Bot(command_prefix="!", intents=intents)
 
 # 無音ループする関数
 async def play_silence_loop(voice):
-    while True:
+    while voice.is_connected():
         if not voice.is_playing():
-            voice.play(discord.FFmpegPCMAudio(
-                "silence.wav",
-                before_options="-re",
-                options="-filter:a volume=0.001"
-            ))
-        await asyncio.sleep(1)
+            try:
+                voice.play(discord.FFmpegPCMAudio(
+                    "silence.wav",
+                    before_options="-stream_loop -1 -re",
+                    options="-filter:a volume=0.001"
+                ))
+            except Exception as e:
+                print("Error:", e)
+        await asyncio.sleep(5)
 
 @bot.command()
 async def orusuban(ctx):
