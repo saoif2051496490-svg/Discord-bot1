@@ -2,4 +2,4 @@ discord.py
 flask
 gunicorn
 PyNaCl
-ffmpeg
+ffmpeg-python
